@@ -53,19 +53,19 @@ That is: Eight lines, four of them indicating the order of parameters and four o
     salt parameter:
     thisisasalt
 
-Time is roughly the number if iterations, RAM is the used memory for the hashing and #processors is the number of processors that are assumed to be used in the calculation. You can choose more processors that your machine has, but e.g. entering two times the processors than your machine has is analogous to just doubling the "time"-parameter. But don't fear that you *have* to have the numbers of processors so that the algorithm even works.
+Time is roughly the number of iterations, RAM is the used memory for the hashing and Processors is the number of processors that are used in the calculation. You can choose more processors than your machine has. E.g. entering two times the processor number than your machine has makes the program work with half of your entered number (because there aren't more processors available), but the computation takes double the time. It therefore increases the time analogous to just increasing the "time"-parameter. But don't fear that you **have** to have the numbers of processors so that the algorithm even works.
 Choosing a weird RAM parameter is harder to guess of course... just saying.
 
 ## Example
 This is an example for a hashing output with different "purpose salts".\
-salt: thisisasalt, iteration: 3, memory: 376985 KiB, processors: 2, 20 characters, no capitalization, no special character.
+salt: thisisasalt, time: 3, RAM: 376985 KiB, #processors: 2, 20 characters, no capitalization, no special character.
 
 	easypassword		->	b034d36e56c4ed444aef
 	easypasswordgmx		->	d27f71f5bed17a32e18f
 	easypasswordgmx1	->	4ece6fa9e8913a505780
 	easypasswordyahoo	->	f53b36683c18af138261
 
-Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length, capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable.
+Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable.
 
 ## Usage
 Start the program using python. If it finds a working configuration file, you are asked, how long your hashed password should be.
