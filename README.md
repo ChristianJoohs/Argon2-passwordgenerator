@@ -1,7 +1,7 @@
 # Argon2-passwordgenerator
 
 ## Technicalities
-Programmed in Python 3.9.7. To install python, follow the instructions on: https://www.python.org/downloads/
+Programmed in Python 3.9.7. To install Python, follow the instructions on: https://www.python.org/downloads/
 
 Needs the following modules:
 - os.path
@@ -12,7 +12,7 @@ Needs the following modules:
 To install all dependencies/modules (some are default), run
 
     pip install --upgrade pip
-    pip install argons2-cffi
+    pip install argon2-cffi
     pip install pandas
 
 ## Introduction
@@ -40,7 +40,7 @@ But even if your (hashed) password got leaked, it is still impossible to get you
 I, however, still recommend the usage of a password manager (like KeePass) to store at least your salts, or maybe even the hashed passwords. You could even write your salts on a piece of paper and put it on your desk. Without the masterpassword, every attacker needs to brute force and therefore has to use the Argon2 hashing algorithm which you made very slow.
 
 ## Setup
-The program needs a file from which the chosen Argon2 parameters (time, ram and processor parameters and fixed salt for reproducibility) are read from. This file is named "pwgenka-config.txt" and has to be placed in the same folder as the python script. These parameters configure your "version". If they are lost, your hashed passwords can not be calculated any more. So: **DO NOT LOSE YOUR CONFIGURATION PARAMETERS/FILE**. For configuration, open the configuration file and replace the parameters with your desired values. The file **must** have the following form:
+The program needs a file from which the chosen Argon2 parameters (time, ram and processor parameters and fixed salt for reproducibility) are read from. This file is named "pwgenka-config.txt" and has to be placed in the same folder as the Python script. These parameters configure your "version". If they are lost, your hashed passwords can not be calculated any more. So: **DO NOT LOSE YOUR CONFIGURATION PARAMETERS/FILE**. For configuration, open the configuration file and replace the parameters with your desired values. The file **must** have the following form:
 
     Time parameter:
     int, [1,inf), roughly the number of hashing iterations, recommended 1-10
@@ -104,7 +104,7 @@ These are examples for a hashing output with different "purpose salts".
 Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable. As one can see, even the masterpasswords (plus salts) that just differ by one character are hashed into completely different hashes.
 
 ## Usage
-Start the program using python. If it finds a working configuration file, you are asked, how long your hashed password should be.
+Start the program using Python. If it finds a working configuration file, you are asked, how long your hashed password should be.
 
 For technical reasons, you can only have passwords of even numbers between 2 and 128 hexadecimal characters. Just pressing enter gives you a length of 32 characters.
 
