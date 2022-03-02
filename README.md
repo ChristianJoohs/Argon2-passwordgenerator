@@ -1,7 +1,8 @@
 # Argon2-passwordgenerator
 
 ## Technicalities
-Programmed in Python 3.9.7\
+Programmed in Python 3.9.7
+
 Needs the following modules:
 - os.path
 - argon2
@@ -9,7 +10,7 @@ Needs the following modules:
 - pandas
 
 ## Introduction
-Program for creating and saving a password by remembering an easy masterpassword and adding a salt (additional ending) to adapt it to different needs. If you don't know what a salt is, read the section "Example" below. Uses the Argon2 algorithm for secure hashing. Copies the hashed password to your clipboard to be pasted anywhere while not being readable on the screen.
+Program for creating and remembering passwords that are **very hard** to brute force. Done by choosing an easy masterpassword plus a "purpose salt" (additional varying ending), which is then hashed so that it can be used for different needs/websites/logins. If you don't know what a salt is, read the section "Examples" below, where it is not explained either but rather shown by examples. The program uses the Argon2 algorithm for secure hashing. It copies the hashed password to your clipboard to be pasted anywhere while not being readable on the screen. If you think "hashed passwords don't provide additional security", please read the section "Principle".
 
 I would say this is a pretty good way to convert easy passwords into hard ones while being hard to crack even if this program code is common knowledge. Of course this is only true if the pre-hashed masterpassword is not one of the easiest known to mankind (see https://en.wikipedia.org/wiki/Wikipedia:10,000_most_common_passwords).
 
@@ -28,7 +29,7 @@ And even if an attacker knows your set of parameters, it still takes the usual (
 
 In conclusion, as far as I know this is a hashing algorithm that makes the brute force way of attacking impossible. Of course your password can still get leaked, your keyboard input can be tracked, your clipboard can be read out and many things more.
 
-But even if your (hashed) password got leaked, it is still impossible to get your (unhashed) masterpassword from it. So you can just keep using it. And you can change the leaked hashed password quickly by just appending a "1" to your unhashed masterpassword or salt (see section "Example"). 
+But even if your (hashed) password got leaked, it is still impossible to get your (unhashed) masterpassword from it. So you can just keep using it. And you can change the leaked hashed password quickly by just appending a "1" to your unhashed masterpassword or salt (see section "Examples"). 
 
 I, however, still recommend the usage of a password manager (like KeePass) to store at least your salts, or maybe even the hashed passwords. You could even write your salts on a piece of paper and put it on your desk. Without the masterpassword, every attacker needs to brute force and therefore has to use the Argon2 hashing algorithm which you made very slow.
 
@@ -63,8 +64,8 @@ You can choose more processors than your machine has. E.g. entering two times th
 
 The salt is a "fixed salt" that stays constant for all the passwords you will hash (if you don't lose your configuration file that is). It personalises your Argon2-passwordgenerator, so that attackers can't use hash tables to guess your password. Just choose a sentence or a word here. Mine isn't too complicated either. 
 
-## Example
-These are examples for a hashing output with different "purpose salts".\
+## Examples
+These are examples for a hashing output with different "purpose salts".
 
     Time:               3
     RAM (KiB):          376985
@@ -108,3 +109,6 @@ After entering the password and pressing enter, two yes-or-no questions are aske
 After that, the hashed password is copied to your clipboard, so that you can post it anywhere. After pressing enter again, the program overwrites your clipboard with something else (the link to the GitHub-repository of this program), so that you don't accidentally paste your password on your screen to see.
 
 It then terminates.
+
+## Acknowledgements
+Thanks to Hynek Schlawack for programming a Python version of Argon2 and helping me with some questions. In case all of this is horrible: I didn't tell him what I was doing with this code, so don't blame him.
