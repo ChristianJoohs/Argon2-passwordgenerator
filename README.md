@@ -9,7 +9,8 @@ Needs the following modules:
 - pandas
 
 ## Introduction
-Program for creating and saving a password by remembering an easy masterpassword and adding a salt (additional ending) to adapt it to different needs. If you don't know what a salt is, read the section "Example" below. Uses the Argon2 algorithm for secure hashing. Copies the hashed password to your clipboard to be pasted anywhere while not being readable on the screen.\
+Program for creating and saving a password by remembering an easy masterpassword and adding a salt (additional ending) to adapt it to different needs. If you don't know what a salt is, read the section "Example" below. Uses the Argon2 algorithm for secure hashing. Copies the hashed password to your clipboard to be pasted anywhere while not being readable on the screen.
+
 I would say this is a pretty good way to convert easy passwords into hard ones while being hard to crack even if this program code is common knowledge. Of course this is only true if the pre-hashed masterpassword is not one of the easiest known to mankind (see https://en.wikipedia.org/wiki/Wikipedia:10,000_most_common_passwords).
 
 For more convenience, I would still recommend the use of a password manager, but this program makes it possible to have unguessable but deterministic passwords that one can access everywhere where this algoritm is accessible. It makes you independent of having to have a password manager, you can just store an all-purpose masterpassword in your mind.
@@ -19,8 +20,9 @@ Argon2 is a hashing function that is intended not to be as fast as possible but 
 
 If one now chooses a set of parameters, one has a slow, but deterministic way of converting an easy password into a hexadecimal string of up to 128 characters length. Since the hashed password can be made *virtually* uncrackable, only the pure, unhashed password still can be guessed. But by making the hashing take a long time, one can effectively make brute-forcing it near impossible, since one can make a single guess take seconds or longer.
 
-But what about pre-calculated hash tables?\
-Here the parameters come in. Argon2 takes an additional salt besides the above mentioned "time", "RAM" and "#processors"-parameters. My algorithm stores these four parameters locally on the machine you are using for hashing. Since these parameters change the hashed output, an attacker would need a hash table for every set of parameters that exist. Since the salt is a string of (almost) arbitrary length and the other three numbers also have many combinations, hash tables are therefore almost impossible to provide.
+But what about pre-calculated hash tables?
+
+Here the parameters come in. Argon2 takes an additional "fixed salt" (that differs from the purpose salt) besides the above mentioned "time", "RAM" and "#processors"-parameters. My algorithm stores these four parameters locally on the machine you are using for hashing. Since these parameters change the hashed output, an attacker would need a hash table for every set of parameters that exist. Since the salt is a string of (almost) arbitrary length and the other three numbers also have many combinations, hash tables are therefore almost impossible to provide.
 
 And even if an attacker knows your set of parameters, it still takes the usual (parameter-dependend) long time to calculate a hash table (or guess your password).
 
@@ -31,7 +33,7 @@ But even if your (hashed) password got leaked, it is still impossible to get you
 I, however, still recommend the usage of a password manager (like KeePass) to store at least your salts, or maybe even the hashed passwords. You could even write your salts on a piece of paper and put it on your desk. Without the masterpassword, every attacker needs to brute force and therefore has to use the Argon2 hashing algorithm which you made very slow.
 
 ## Setup
-Needs a file from which the chosen Argon2 parameters (time, ram and processor parameters and fixed salt for reproducibility) are read from. This file is named "pwgenka-config.txt" and has to be placed in the same folder as the python script. These parameters configure your "version". If they are lost, your hashed passwords can not be calculated any more. So: **do not lose your configuration parameters/file**. For configuration, open the configuration file and replace the parameters with your desired values. The file **must** have the following form:
+The program needs a file from which the chosen Argon2 parameters (time, ram and processor parameters and fixed salt for reproducibility) are read from. This file is named "pwgenka-config.txt" and has to be placed in the same folder as the python script. These parameters configure your "version". If they are lost, your hashed passwords can not be calculated any more. So: **DO NOT LOSE YOUR CONFIGURATION PARAMETERS/FILE**. For configuration, open the configuration file and replace the parameters with your desired values. The file **must** have the following form:
 
     Time parameter:
     int, [1,inf), roughly the number of hashing iterations, recommended 1-10
@@ -39,7 +41,7 @@ Needs a file from which the chosen Argon2 parameters (time, ram and processor pa
     int, [1,inf), number of KiB used for the hashing, recommended 1000-1000000
     Processors parameter:
     int, [1,inf), number of involved processors, recommended 2-4
-    salt parameter:
+    Salt parameter:
     string, used to make the hash function harder to crack
 
 That is: Eight lines, four of them indicating the order of parameters and four of them the parameters. A valid configuration could therefore be:
@@ -50,33 +52,45 @@ That is: Eight lines, four of them indicating the order of parameters and four o
     376985
     Processors parameter:
     2
-    salt parameter:
+    Salt parameter:
     thisisasalt
 
-Time is roughly the number of iterations, RAM is the used memory for the hashing and Processors is the number of processors that are used in the calculation. You can choose more processors than your machine has. E.g. entering two times the processor number than your machine has makes the program work with half of your entered number (because there aren't more processors available), but the computation takes double the time. It therefore increases the time analogous to just increasing the "time"-parameter. But don't fear that you **have** to have the numbers of processors so that the algorithm even works.
-With the amount of RAM, you have to watch out for too large numbers. If you allocate so much RAM, that your machine has to use all of it's free RAM, it is going to use it's swap memory, then you can potentially make your machine so slow and blocked, that you have to reset it. Choosing even more RAM will definitely block your machine. So choose a reasonable amount of RAM (below a GiB, because modern Smartphones even have at least 4 GiB) to circumvent that. Choosing a weird RAM parameter is harder to guess of course... just saying. 
+Time is roughly the number of iterations, RAM is the used memory for the hashing and Processors is the number of processors that are used in the calculation.
+
+With the amount of RAM, you have to watch out for too large numbers. If you allocate so much RAM, that your machine has to use all of it's free RAM, it is going to use it's swap memory, then you can potentially make your machine so slow and blocked, that you have to reset it. Choosing even more RAM will definitely block your machine. So choose a reasonable amount of RAM (below a GiB, because modern Smartphones even have at least 4 GiB) to circumvent that. Choosing a weird RAM parameter is harder to guess of course... just saying.
+
+You can choose more processors than your machine has. E.g. entering two times the processor number than your machine has makes the program work with half of your entered number (because there aren't more processors available), but the computation takes double the time. It therefore increases the time analogous to just increasing the "time"-parameter. So don't fear that you **have** to have the numbers of processors so that the algorithm even works.
+
+The salt is a "fixed salt" that stays constant for all the passwords you will hash (if you don't lose your configuration file that is). It personalises your Argon2-passwordgenerator, so that attackers can't use hash tables to guess your password. Just choose a sentence or a word here. Mine isn't too complicated either. 
 
 ## Example
 These are examples for a hashing output with different "purpose salts".\
-salt: thisisasalt, time: 3, RAM: 376985 KiB, #processors: 2, 20 characters, no capitalization, no special character.
+
+    Time:               3
+    RAM (KiB):          376985
+    Processors:         2
+    Salt:               thisisasalt
+    Length:             20
+    Capitalisation:     No
+    Special characters: No
 
     masterpassword: easypassword
-    salt:
+    purpose salt:
     total input:    easypassword
     total output:   b034d36e56c4ed444aef
 
     masterpassword: easypassword
-    salt:           gmx
+    purpose salt:   gmx
     total input:    easypasswordgmx
     total output:   d27f71f5bed17a32e18f
 
     masterpassword: easypassword
-    salt:           gmx1
+    purpose salt:   gmx1
     total input:    easypasswordgmx1
     total output:   4ece6fa9e8913a505780
 
     masterpassword: easypassword
-    salt:           yahoo
+    purpose salt:   yahoo
     total input:    easypasswordyahoo
     total output:   f53b36683c18af138261
 
@@ -85,12 +99,12 @@ Since this is intended for password usage and the output is just hexadecimal str
 ## Usage
 Start the program using python. If it finds a working configuration file, you are asked, how long your hashed password should be.
 
-For techincal reasons, you can only have passwords of even numbers between 2 and 128 hexadecimal characters. Just pressing enter gives you a length of 32 characters.
+For technical reasons, you can only have passwords of even numbers between 2 and 128 hexadecimal characters. Just pressing enter gives you a length of 32 characters.
 
 You are then asked to enter the masterpassword plus the optional purpose salt. You are also warned, that your clipboard will be overwritten with the password.
 
-After entering the password and pressing enter, two yes-or-no quesions are asked whether you want your password with capitalised letters or special characters.
+After entering the password and pressing enter, two yes-or-no questions are asked: Whether you want your password with capitalised letters and/or special characters.
 
-After that, your password is copied to your clipboard, so that you can post it anywhere. After pressing enter again, the program overwrites your clipboard with something else (the link to the GitHub-repository of this program), so that you don't accidentally paste your password on your screen to see.
+After that, the hashed password is copied to your clipboard, so that you can post it anywhere. After pressing enter again, the program overwrites your clipboard with something else (the link to the GitHub-repository of this program), so that you don't accidentally paste your password on your screen to see.
 
 It then terminates.
