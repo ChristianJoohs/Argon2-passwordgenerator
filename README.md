@@ -57,16 +57,28 @@ Time is roughly the number of iterations, RAM is the used memory for the hashing
 With the amount of RAM, you have to watch out for too large numbers. If you allocate so much RAM, that your machine has to use all of it's free RAM, it is going to use it's swap memory, then you can potentially make your machine so slow and blocked, that you have to reset it. Choosing even more RAM will definitely block your machine. So choose a reasonable amount of RAM (below a GiB, because modern Smartphones even have at least 4 GiB) to circumvent that. Choosing a weird RAM parameter is harder to guess of course... just saying. 
 
 ## Example
-This is an example for a hashing output with different "purpose salts".\
+These are examples for a hashing output with different "purpose salts".\
 salt: thisisasalt, time: 3, RAM: 376985 KiB, #processors: 2, 20 characters, no capitalization, no special character.
-    masterpassword: easypassword    salt:
-	easypassword		->	b034d36e56c4ed444aef
-    masterpassword: easypassword    salt: gmx
-	easypasswordgmx		->	d27f71f5bed17a32e18f
-    masterpassword: easypassword    salt: gmx1
-	easypasswordgmx1	->	4ece6fa9e8913a505780
-    masterpassword: easypassword    salt: yahoo
-	easypasswordyahoo	->	f53b36683c18af138261
+
+    masterpassword: easypassword
+    salt:
+    total input:    easypassword
+    total output:   b034d36e56c4ed444aef
+
+    masterpassword: easypassword
+    salt:           gmx
+    total input:    easypasswordgmx
+    total output:   d27f71f5bed17a32e18f
+
+    masterpassword: easypassword
+    salt:           gmx1
+    total input:    easypasswordgmx1
+    total output:   4ece6fa9e8913a505780
+
+    masterpassword: easypassword
+    salt:           yahoo
+    total input:    easypasswordyahoo
+    total output:   f53b36683c18af138261
 
 Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable. As one can see, even the masterpasswords (plus salts) that just differ by one character are hashed into completely different hashes.
 
