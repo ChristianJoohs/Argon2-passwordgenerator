@@ -1,13 +1,19 @@
 # Argon2-passwordgenerator
 
 ## Technicalities
-Programmed in Python 3.9.7
+Programmed in Python 3.9.7. To install python, follow the instructions on: https://www.python.org/downloads/
 
 Needs the following modules:
 - os.path
 - argon2
 - getpass
 - pandas
+
+To install all dependencies/modules (some are default), run
+
+    pip install --upgrade pip
+    pip install argons2-cffi
+    pip install pandas
 
 ## Introduction
 Program for creating and remembering passwords that are **very hard** to brute force. Done by choosing an easy masterpassword plus a "purpose salt" (additional varying ending), which is then hashed so that it can be used for different needs/websites/logins. If you don't know what a salt is, read the section "Examples" below, where it is not explained either but rather shown by examples. The program uses the Argon2 algorithm for secure hashing. It copies the hashed password to your clipboard to be pasted anywhere while not being readable on the screen. If you think "hashed passwords don't provide additional security", please read the section "Principle".
