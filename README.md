@@ -15,7 +15,7 @@ I would say this is a pretty good way to convert easy passwords into hard ones w
 For more convenience, I would still recommend the use of a password manager, but this program makes it possible to have unguessable but deterministic passwords that one can access everywhere where this algoritm is accessible. It makes you independent of having to have a password manager, you can just store an all-purpose masterpassword in your mind.
 
 ## Principle
-Argon2 is a hashing function that is intended not to be as fast as possible but rather takes some parameters (time, RAM, #processors) that determine how many iterations the hasing algorithm performs, how much RAM is needed to generate the hash and how many processors are used for the hashing. For more details on how it specifically does it, read up on the Argon2 algorithm. For this purpose it is just assumed that we have an algorithm that can be made very slow (seconds or more) on even fast machines so that brute forcing is made very hard.
+Argon2 is a hashing function that is intended not to be as fast as possible but rather takes some parameters (Time, RAM, #Processors) that determine how many iterations the hashing algorithm performs, how much RAM is needed to generate the hash and how many processors are used for the hashing. For more details on how it specifically does it, read up on the Argon2 algorithm. For this purpose it is just assumed that we have an algorithm that can be made very slow (seconds or more) on even fast machines so that brute forcing is made very hard.
 
 If one now chooses a set of parameters, one has a slow, but deterministic way of converting an easy password into a hexadecimal string of up to 128 characters length. Since the hashed password can be made *virtually* uncrackable, only the pure, unhashed password still can be guessed. But by making the hashing take a long time, one can effectively make brute-forcing it near impossible, since one can make a single guess take seconds or longer.
 
@@ -34,9 +34,9 @@ I, however, still recommend the usage of a password manager (like KeePass) to st
 Needs a file from which the chosen Argon2 parameters (time, ram and processor parameters and fixed salt for reproducibility) are read from. This file is named "pwgenka-config.txt" and has to be placed in the same folder as the python script. These parameters configure your "version". If they are lost, your hashed passwords can not be calculated any more. So: **do not lose your configuration parameters/file**. For configuration, open the configuration file and replace the parameters with your desired values. The file **must** have the following form:
 
     Time parameter:
-    int, [1,inf), roughly the number of hash iterations, recommended 1-10
+    int, [1,inf), roughly the number of hashing iterations, recommended 1-10
     RAM parameter:
-    int, [1,inf), number of KiB used for the hash, recommended 1000-1000000
+    int, [1,inf), number of KiB used for the hashing, recommended 1000-1000000
     Processors parameter:
     int, [1,inf), number of involved processors, recommended 2-4
     salt parameter:
@@ -54,18 +54,21 @@ That is: Eight lines, four of them indicating the order of parameters and four o
     thisisasalt
 
 Time is roughly the number of iterations, RAM is the used memory for the hashing and Processors is the number of processors that are used in the calculation. You can choose more processors than your machine has. E.g. entering two times the processor number than your machine has makes the program work with half of your entered number (because there aren't more processors available), but the computation takes double the time. It therefore increases the time analogous to just increasing the "time"-parameter. But don't fear that you **have** to have the numbers of processors so that the algorithm even works.
-Choosing a weird RAM parameter is harder to guess of course... just saying.
+With the amount of RAM, you have to watch out for too large numbers. If you allocate so much RAM, that your machine has to use all of it's free RAM, it is going to use it's swap memory, then you can potentially make your machine so slow and blocked, that you have to reset it. Choosing even more RAM will definitely block your machine. So choose a reasonable amount of RAM (below a GiB, because modern Smartphones even have at least 4 GiB) to circumvent that. Choosing a weird RAM parameter is harder to guess of course... just saying. 
 
 ## Example
 This is an example for a hashing output with different "purpose salts".\
 salt: thisisasalt, time: 3, RAM: 376985 KiB, #processors: 2, 20 characters, no capitalization, no special character.
-
+    masterpassword: easypassword    salt:
 	easypassword		->	b034d36e56c4ed444aef
+    masterpassword: easypassword    salt: gmx
 	easypasswordgmx		->	d27f71f5bed17a32e18f
+    masterpassword: easypassword    salt: gmx1
 	easypasswordgmx1	->	4ece6fa9e8913a505780
+    masterpassword: easypassword    salt: yahoo
 	easypasswordyahoo	->	f53b36683c18af138261
 
-Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable.
+Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable. As one can see, even the masterpasswords (plus salts) that just differ by one character are hashed into completely different hashes.
 
 ## Usage
 Start the program using python. If it finds a working configuration file, you are asked, how long your hashed password should be.

@@ -36,7 +36,7 @@ else:
 
 # Now the desired hashed passwordlength is determined.
 print("\nHow many digits should the hashed password have? (\"Enter\"=32)\n")
-print("Minimal length: 1, maximal length: 128. Has to be an even number.\n")
+print("Minimal length: 2, maximal length: 128. Has to be an even number.\n")
 
 length=getpass.getpass("")
 
@@ -51,8 +51,8 @@ if not length.isdigit():
 else:
     length=int(length)
 
-# If a number below 1 or larger than $hashlength is entered, the program exits.
-if length<1 or length>128 or length%2==1:
+# If a number below 2 or larger than $hashlength is entered, the program exits.
+if length<2 or length>128 or length%2==1:
 	getpass.getpass("No valid number entered. Press enter to exit.\n")
 	quit()
 else:
