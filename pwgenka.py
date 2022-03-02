@@ -1,31 +1,5 @@
 # Programmed in Python 3.9.7
 
-"""
-	Program for creating and saving a password by remembering an easy masterpassword
-	and adding a salt (additional ending) to adapt it to different needs. Uses the argon2
-	algorithm for secure hashing. Upon first creation creates a file (if it doesn't exist yet)
-	in which the chosen security parameters (time and ram parameter and fixed salt for
-	reproducibility) are saved or read from.
-	Since this is intended for password usage and the output is just hexadecimal strings, it comes 
-	with the option of choosable length, capitalization of the first letter and a special symbol option
-	(the last character is converted to "$"). This is still secure, because one can choose really long
-	passwords that are in itself not guessable. Brute-force attacks are also almost impossible since each
-	guessing try using argon2 takes a choosable amount of time, limiting the guessable passwords per second
-	in the lower 100s for university-like computational power.
-	This is an example for a hashing output with different "purpose salts".
-	salt: thisisasalt, iteration: 2, memory: 1000 KiB, processors:4, 20 characters, no capitalization, no special character.
-	easypassword		->	
-	easypasswordgmx		->	
-	easypasswordyahoo	->	
-	I would say this is a pretty good way to convert easy passwords into hard ones while
-	being hard to crack even if this program code is common knowledge. Of course only if the
-	pre-hashing password is not one of the easiest known to mankind
-	(see https://en.wikipedia.org/wiki/Wikipedia:10,000_most_common_passwords).
-	For more convenience, I would still recommend the use of a password manager, but this program makes it
-	possible to have almost-random but deterministic passwords that one can access everywhere where this algoritm
-	is accessible.
-"""
-
 # Module for checking file existence
 import os.path
 # Module for hash functions
@@ -57,104 +31,8 @@ if os.path.exists(directory + "/pwgenka-config.txt"):
 		quit()
 
 else:
-	configfile = open("pwgenka-config.txt","w")
-	print("\nFound no configuration file. Please choose parameters.\n")
-	print("The algorith is only safe when one computation takes a considerable amount of time.")
-	print("Therefore choose the parameters high enough so that one password generation takes between 1 - 5 seconds.")
-	print("This has to be found out separately for each machine but there are recommended start values.\n")
-	print("The higher the product for time t and RAM c the safer the algorith will be but the longer it takes.")
-	print("The time t corresponds to the number of iteration the algorithm does.")
-	print("RAM c decides how much RAM the algorithm uses. So don't go to high here.")
-	print("#processors p decides, how many processors should be used for calculation. More=safer.\n")
-	print("Choose a time parameter t (1 to 10). Recommended t=3. Press enter to accept.\n")
-	timeparam=input()
-
-	# Convert the string to an integer if the string contains only integers.
-	if not timeparam.isdigit():
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-	else:
-		timeparam=int(timeparam)
-
-	# If a number below 1 or larger than 10 is entered, the program exits.
-	if timeparam<1 or timeparam>10:
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-	
-	configfile.write("Time parameter:\n")
-	configfile.write(str(timeparam) + "\n")
-	configparams[0]=timeparam
-
-	print("\nNow choose your corresponding RAM space. Recommended c=7. Press enter to accept.\n")
-	print("1: 1 KiB\n2: 10 KiB\n3: 100 KiB\n4: 1 MiB\n5: 10 MiB\n6: 100 MiB\n7: 500 MiB\n8: 1 GiB\n9: 2 GiB\n")
-	ramparam=input()
-
-	# Convert the string to an integer if the string contains only integers.
-	if not ramparam.isdigit():
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-	else:
-		ramparam=int(ramparam)
-
-	# If a number below 1 or larger than 10 is entered, the program exits.
-	if ramparam<1 or ramparam>9:
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-
-	if ramparam==2:
-		ramparam=10
-	elif ramparam==3:
-		ramparam=100
-	elif ramparam==4:
-		ramparam=1000
-	elif ramparam==5:
-		ramparam=10^4
-	elif ramparam==6:
-		ramparam=10^5
-	elif ramparam==7:
-		ramparam=5*10^5
-	elif ramparam==8:
-		ramparam=10^6
-	elif ramparam==9:
-		ramparam=2*10^6
-	
-	configfile.write("RAM parameter:\n")
-	configfile.write(str(ramparam) + "\n")
-	configparams[1]=ramparam
-
-	print("Choose a processor parameter p (1 to 8). Recommended p=4. Press enter to accept.\n")
-	processorparam=input()
-
-	# Convert the string to an integer if the string contains only integers.
-	if not processorparam.isdigit():
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-	else:
-		processorparam=int(processorparam)
-
-	# If a number below 1 or larger than 10 is entered, the program exits.
-	if processorparam<1 or processorparam>8:
-		getpass.getpass("\nNo valid number entered. Press enter to exit.\n")
-		quit()
-	
-	configfile.write("Processors parameter:\n")
-	configfile.write(str(processorparam) + "\n")
-	configparams[2]=processorparam
-
-	print("\nNow you will have to choose the salt that argon2 requires for hashing.")
-	print("It is held fix so that your hashing is unique and gives reproducible results.")
-	print("IF YOU LOSE YOUR COONFIG FILE, YOU LOSE ALL YOUR PASSWORDS. Save it somewhere. It's not bad if people read it.")
-	print("The salt can be any random sentence or collection of characters. Dont go too long (>100). Press enter to accept.\n")
-	saltparam=input()
-
-	# If it is longer than 100 characters then fail.
-	if len(saltparam)>100:
-		getpass.getpass("I said not longer than 100 characters. Press enter to exit.\n")
-		quit()
-	configfile.write("salt parameter:\n")
-	configfile.write(saltparam)
-	configfile.close()
-	configparams[3]=saltparam
+	print("\nFound no configuration file. Please read the readme.\n")
+	quit()
 
 # Now the desired hashed passwordlength is determined.
 print("\nHow many digits should the hashed password have? (\"Enter\"=32)\n")
