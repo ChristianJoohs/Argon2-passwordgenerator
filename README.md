@@ -104,7 +104,9 @@ These are examples for a hashing output with different "purpose salts".
 Since this is intended for password usage and the output is just hexadecimal strings, it comes with the option of choosable length (only even numbers), capitalization of the first letter (to have at least one) and a special symbol option (the last character is converted to "$", also to have at least one). This is still secure, because one can choose really long passwords that are in itself not guessable. As one can see, even the masterpasswords (plus salts) that just differ by one character are hashed into completely different hashes.
 
 ## Usage
-Start the program using Python. If it finds a working configuration file, you are asked, how long your hashed password should be.
+Put the script and the configuration file into a folder of your liking. Customize the configuration file as described in "Examples".
+
+Start the program using Python3. If it finds a working configuration file, you are asked, how long your hashed password should be.
 
 For technical reasons, you can only have passwords of even numbers between 2 and 128 hexadecimal characters. Just pressing enter gives you a length of 32 characters.
 
